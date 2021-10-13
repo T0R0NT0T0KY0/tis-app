@@ -15,7 +15,7 @@
                     check = false;
                 }
             }
-            if (check) await ajax_post_request(input[0].value, input[1].value);
+            if (check) await ajax_post_request(input[0].value, input[1].value, input[2].value, input[3].value);
             return check;
         });
         
@@ -51,13 +51,12 @@
             $(thisAlert).removeClass('alert-validate');
         }
         
-        const ajax_post_request = (email, password) => {
-            console.log(JSON.stringify({ email, password }))
+        const ajax_post_request = async (username, nickname, email, password) => {
+            alert(JSON.stringify({ name: username, nick: nickname, email, password }))
             $.ajax({
                 url: 'http://localhost:8080/api/registration',
                 method: 'POST',
-                contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ email, password }),
+                data: JSON.stringify({ username, nickname, email, password }),
                 success: (data) => {
                     alert(data);
                     console.log({ data })
