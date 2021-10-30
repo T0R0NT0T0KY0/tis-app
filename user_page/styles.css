@@ -1,0 +1,213 @@
+@font-face {
+    font-family: 'Roboto Thin';
+    src: url('fonts/Roboto-Thin.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Light Italic';
+    src: url('fonts/Roboto-LightItalic.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Italic';
+    src: url('fonts/Roboto-Italic.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Black';
+    src: url('fonts/Roboto-Black.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Medium';
+    src: url('fonts/Roboto-Medium.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Medium Italic';
+    src: url('fonts/Roboto-MediumItalic.ttf'); /* IE9 Compat Modes */
+}
+
+@font-face {
+    font-family: 'Roboto Regular';
+    src: url('fonts/Roboto-Regular.ttf'); /* IE9 Compat Modes */
+}
+
+.user_image {
+    position: absolute;
+    width: 492px;
+    height: 492px;
+    left: 33px;
+    top: 80px;
+    background: url("https://avatars.yandex.net/get-music-content/5280749/413fff7e.a.18433448-1/m1000x1000") center center; /*todo from fetch*/
+    border-radius: 50%;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.user_information {
+    font-family: 'Roboto Light Italic', sans-serif;
+    position: absolute;
+    font-style: normal;
+    display: flex;
+    align-items: center;
+    text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+    color: #000000;
+    text-align: center;
+}
+
+.nickname {
+    font-family: 'Roboto Thin', sans-serif;
+    width: 357px;
+    height: 50px;
+    left: 33px;
+    top: 600px;
+    font-weight: 200;
+    font-size: 50px;
+    line-height: 59px;
+    filter: drop-shadow(4px 4px 0px rgba(0, 0, 0, 0.25));
+}
+
+.username {
+    width: 500px;
+    height: 50px;
+    left: 33px;
+    top: 670px;
+
+    font-family: 'Roboto Black', sans-serif;
+    font-weight: 900;
+    font-size: 50px;
+    line-height: 59px;
+}
+
+
+.team {
+    width: 153px;
+    height: 30px;
+    left: 33px;
+    top: 750px;
+
+    font-family: 'Roboto Medium', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.team_name {
+    width: 212px;
+    height: 30px;
+    left: 186px;
+    top: 750px;
+
+    font-family: 'Roboto Light Italic', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 26px;
+}
+
+.user_information_panels {
+    position: absolute;
+    width: 502px;
+    height: 55px;
+    background: #0085FF;
+    border-radius: 17px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+.living_panel {
+    left: 609px;
+    top: 150px;
+}
+
+.birthday_panel {
+    width: 278px;
+    height: 55px;
+    left: 1100px;
+    top: 282px;
+}
+
+.email_panel {
+    left: 609px;
+    top: 371px;
+}
+
+.in_panel {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 8px;
+    width: 460px;
+    height: 55px;
+    text-align: center;
+    display: table-cell;
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 30px;
+    line-height: 35px;
+}
+
+.birthday {
+    padding: 8px;
+    overflow: hidden;
+    width: 240px;
+    height: 55px;
+    text-align: center;
+    display: table-cell;
+    font-family: 'Roboto Regular', sans-serif;
+    font-size: 30px;
+    line-height: 35px;
+}
+
+
+.user_many_info {
+    white-space: nowrap;
+    font-family: 'Roboto Light Italic', sans-serif;
+    font-weight: 300;
+    width: 240px;
+    height: 55px;
+    line-height: 35px;
+    font-size: 35px;
+    filter: drop-shadow(3px 3px 0px rgba(0, 0, 0, 0.25));
+}
+
+.user_living {
+    top: 150px;
+    left: 1175px;
+}
+
+.user_birthday {
+    left: 650px;
+    top: 282px;
+}
+
+.user_email {
+    top: 371px;
+    left: 1175px;
+}
+
+.user_about {
+    width: 161px;
+    height: 35px;
+    right: 720px;
+    bottom: 338px;
+    font-family: 'Roboto Medium Italic', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 35px;
+}
+
+.about_info {
+    width: 859px;
+    height: 203px;
+    right: 0;
+    bottom: 142px;
+    vertical-align: center;
+    font-family: 'Roboto Light Italic', sans-serif;
+
+    font-weight: 300;
+    font-size: 30px;
+    line-height: 35px;
+    text-align: center;
+}
