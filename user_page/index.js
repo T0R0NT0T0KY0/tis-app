@@ -6,14 +6,12 @@ const base_url = 'http://192.168.1.3:8080/api/user';
 const setNickname = async () => {
     const nickname = document.querySelector(".nickname");
      await fetch(base_url +'/nickname' + getQuery())
-        .then(resp => console.log({resp}))
-        .catch(e => console.log({e}));
-        // .then(r => {
-        //     console.log(1, r.body)
-        //     return r.body
-        // })
-        // .then(r => nickname.textContent = r.data.nickname)
-        // .catch((e) => nickname.textContent = e)
+        .then(r => {
+            console.log(1, r.body)
+            return r.body
+        })
+        .then(r => nickname.textContent = r.data.nickname)
+        .catch((e) => nickname.textContent = e)
 }
 const setUsername = async () => {
     const username = document.querySelector(".username");
