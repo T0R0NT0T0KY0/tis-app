@@ -6,16 +6,15 @@
          [ Validate ]*/
         var input = $('.validate-input .input100');
 
-        $('.validate-form').on('submit', function () {
+        $('.validate-form').on('submit', async function () {
             let check = true;
-
             for (let i = 0; i < input.length; i++) {
                 if (!validate(input[i])) {
                     showValidate(input[i]);
                     check = false;
                 }
             }
-            if (check) ajax_post_request(input[0].value, input[1].value, input[2].value, input[3].value);
+            if (check) await ajax_post_request(input[0].value, input[1].value, input[2].value, input[3].value);
             return check;
         });
 
@@ -26,26 +25,26 @@
             });
         });
 
-        function validate (input) {
+        function validate(input) {
             if ($(input).attr('type') === 'email' || $(input).attr('name') === 'email') {
-                if ($(input).val().trim().match(/^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(]?)$/) == null) {
+                if (!/.+@.+\..+/.test($(input).val().trim())) {
                     return false;
                 }
             } else {
-                if (!$(input).val().trim().length && !$(input).val().match(/[\\\/]/)) {
+                if (!$(input).val().trim().length && !$(input).val().match(/[\\\/]+/)) {
                     return false;
                 }
             }
             return true;
         }
 
-        function showValidate (input) {
+        function showValidate(input) {
             var thisAlert = $(input).parent();
 
             $(thisAlert).addClass('alert-validate');
         }
 
-        function hideValidate (input) {
+        function hideValidate(input) {
             var thisAlert = $(input).parent();
 
             $(thisAlert).removeClass('alert-validate');
