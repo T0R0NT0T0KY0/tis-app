@@ -32,6 +32,11 @@
     font-family: 'Roboto Regular';
     src: url('fonts/Roboto-Regular.ttf'); /* IE9 Compat Modes */
 }
+
+.background {
+    background: #00d9ff center center; /*todo from fetch*/
+}
+
 .user_image {
     object-fit: cover;
     flex: 1;
@@ -121,20 +126,20 @@
 }
 
 .living_panel {
-    left: 609px;
-    top: 150px;
+    left: 700px;
+    top: 175px;
 }
 
 .birthday_panel {
     width: 278px;
     height: 55px;
-    left: 1100px;
-    top: 282px;
+    left: 1275px;
+    top: 300px;
 }
 
 .email_panel {
-    left: 609px;
-    top: 371px;
+    left: 700px;
+    top: 425px;
 }
 
 .in_panel {
@@ -176,18 +181,18 @@
 }
 
 .user_living {
-    top: 150px;
-    left: 1175px;
+    top: 175px;
+    left: 1320px;
 }
 
 .user_birthday {
-    left: 650px;
-    top: 282px;
+    left: 750px;
+    top: 300px;
 }
 
 .user_email {
-    top: 371px;
-    left: 1175px;
+    top: 425px;
+    left: 1320px;
 }
 
 .user_about {
