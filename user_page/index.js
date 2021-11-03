@@ -5,12 +5,19 @@ const base_url = 'http://192.168.1.3:8080/api/user';
 
 export const setNickname = async () => {
     const nickname = document.querySelector(".nickname");
-    await fetch(base_url +'/nickname' + getQuery(), {mode: "no-cors", method: "GET"})
-        .then(r => r.json())
-        .then(r => {
-            console.log(211, r)
-        })
-        .catch(e => console.log({e}))
+
+    const request = new XMLHttpRequest();
+    request.open("POST", base_url +'/nickname' + getQuery(), false);
+    request.withCredentials = true;
+    request.send(JSON.stringify({username, nickname, email, password}))
+    console.log(1121, request);
+
+    // await fetch(base_url +'/nickname' + getQuery(), {mode: "no-cors", method: "GET"})
+    //     .then(r => r.json())
+    //     .then(r => {
+    //         console.log(211, r)
+    //     })
+    //     .catch(e => console.log({e}))
 }
 export const setUsername = async () => {
     const username = document.querySelector(".username");
