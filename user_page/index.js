@@ -1,56 +1,129 @@
-const getQuery = () => {
-    return window.location.search.split("?")[1] ?? "";
-}
+import {createURL} from "../helpers/url.js";
 
-export const setNickname = () => {
+const updateNickname = async () => {
     const nickname = document.querySelector(".nickname");
-    fetch('https://192.168.1.3/api/user/nickname?' + getQuery())
-        .then(r => nickname.textContent = r.json().data.nickname)
-        .catch((e) => nickname.textContent = "")
+    const url = createURL('/user/nickname');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => nickname.textContent = r.data.nickname)
+        .catch((e) => {
+            nickname.textContent = "..."
+            console.log({e, url})
+        })
 }
-export const setUsername = () => {
+
+const updateUsername = async () => {
     const username = document.querySelector(".username");
-    fetch('https://192.168.1.3/api/user/username?'  + getQuery())
-        .then(r => username.textContent = r.json().data.username)
-        .catch((e) => username.textContent = "")
+    const url = createURL('/user/username');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => username.textContent = r.data.username)
+        .catch((e) => {
+            username.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setTeam = () => {
+const updateTeam = async () => {
     const nickname = document.querySelector(".team_name");
-    fetch('https://192.168.1.3/api/user/team?'  + getQuery())
-        .then(r => nickname.textContent = r.json().data.team)
-        .catch((e) => nickname.textContent = "")
-
+    const url = createURL('/user/team');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => nickname.textContent = r.data.team)
+        .catch((e) => {
+            nickname.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setLivingPlace = () => {
-    const nickname = document.querySelector(".living_place");
-    fetch('https://192.168.1.3/api/user/living_place?'  + getQuery())
-        .then(r => nickname.textContent = r.json().data.place)
-        .catch((e) => nickname.textContent = "")
-
+const updateLivingPlace = async () => {
+    const living_place = document.querySelector("#living_place");
+    const url = createURL('/user/living_place');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => living_place.textContent = r.data.place)
+        .catch((e) => {
+            living_place.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setBirthday = () => {
-    const nickname = document.querySelector(".birthday");
-    fetch('https://192.168.1.3/api/user/birthday?'  + getQuery())
-        .then(r => nickname.textContent = r.json().data.birthday)
-        .catch((e) => nickname.textContent = "")
-
+const updateBirthday = async () => {
+    const birthday = document.querySelector(".birthday");
+    const url = createURL('/user/birthday');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => birthday.textContent = r.data.birthday)
+        .catch((e) => {
+            birthday.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setEmail = () => {
-    const nickname = document.querySelector(".email");
-    fetch('https://192.168.1.3/api/user/email?'  + getQuery())
-        .then(r => nickname.textContent = r.json().data.email)
-        .catch((e) => nickname.textContent = "")
+const updateEmail = async () => {
+    const email = document.querySelector(".email");
+    const url = createURL('/user/email');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => {
 
+            email.textContent = r.data.email
+        })
+        .catch((e) => {
+            email.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setAbout = () => {//todo
-    const nickname = document.querySelector(".about_info");
-    fetch('https://192.168.1.3/api/user/email?'  + getQuery())
-        .then(r => nickname.textContent = r.json().data.email)
-        .catch((e) => nickname.textContent = "")
-
+const updateAbout = async () => {
+    const about = document.querySelector(".about_info");
+    const url = createURL('/user/about');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => about.textContent = r.data.about)
+        .catch((e) => {
+            about.textContent = "..."
+            console.log({e, url})
+        })
 }
+const updateImage = async () => {
+    const img = document.querySelector(".user_image");
+    const url = createURL('/user/photo');
+    await fetch(url)
+        .then(r => r.json())
+        .then(json => img.setAttribute("src", json.data.link))
+        .catch((e) => {
+            img.textContent = "..."
+            console.log({e, url})
+        })
+}
+const getUserById = async () => {
+    const url = createURL('/user');
+    return await fetch(url)
+        .then(r => r.json())
+        .catch((e) => {
+            console.log({e, url});
+            return {};
+        })
+}
+
+const setInfo = (selector, data) => {
+    console.log({selector, data})
+    const e = document.querySelector(selector);
+    e && data ? e.textContent = data : null;
+}
+
+const setInformations = (data) => {
+    Object.keys(data).forEach(k => setInfo(`.${k}`, data[k]));
+}
+
+const setData = async () => {
+    const {data} = await getUserById();
+    if (data)
+        setInformations(data)
+    // if (!data) {
+    //     window.location.href = "https://qna.habr.com/"
+    // }
+};
+
+export default setData;
