@@ -1,92 +1,129 @@
-const getQuery = () => {
-    return window.location.search ?? "";
-}
-const base_url = 'http://192.168.1.3:8080/api/user';
+import {createURL} from "../helpers/url.js";
 
-export const setNickname = async () => {
+const updateNickname = async () => {
     const nickname = document.querySelector(".nickname");
-
-    const request = new XMLHttpRequest();
-    request.open("POST", base_url +'/nickname' + getQuery(), false);
-    request.withCredentials = true;
-    request.send(JSON.stringify({username, nickname, email, password}))
-    console.log(1121, request);
-
-    // await fetch(base_url +'/nickname' + getQuery(), {mode: "no-cors", method: "GET"})
-    //     .then(r => r.json())
-    //     .then(r => {
-    //         console.log(211, r)
-    //     })
-    //     .catch(e => console.log({e}))
+    const url = createURL('/user/nickname');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => nickname.textContent = r.data.nickname)
+        .catch((e) => {
+            nickname.textContent = "..."
+            console.log({e, url})
+        })
 }
-export const setUsername = async () => {
+
+const updateUsername = async () => {
     const username = document.querySelector(".username");
-    await fetch(base_url + '/username' + getQuery(), {mode: "no-cors", method: "GET"})
-        .then(r => {
-            console.log(2, r.body)
-            return r.json()
+    const url = createURL('/user/username');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => username.textContent = r.data.username)
+        .catch((e) => {
+            username.textContent = "..."
+            console.log({e, url})
         })
-        .then(r => {
-            return username.textContent = r.data.username
-        })
-        .catch((e) => username.textContent = e)
 }
 
-export const setTeam = async () => {
+const updateTeam = async () => {
     const nickname = document.querySelector(".team_name");
-    await fetch(base_url + '/team' + getQuery(), {mode: "no-cors"})
-        .then(r => nickname.textContent = r.json().data.team)
-        .catch((e) => nickname.textContent = "")
+    const url = createURL('/user/team');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => nickname.textContent = r.data.team)
+        .catch((e) => {
+            nickname.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setLivingPlace = async () => {
-    const living_place = document.querySelector(".living_place");
-    await fetch(base_url + '/living_place' + getQuery(), {mode: "no-cors"})
-        .then(r => living_place.textContent = r.json().data.place)
-        .catch((e) => living_place.textContent = "")
-
+const updateLivingPlace = async () => {
+    const living_place = document.querySelector("#living_place");
+    const url = createURL('/user/living_place');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => living_place.textContent = r.data.place)
+        .catch((e) => {
+            living_place.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setBirthday = async () => {
+const updateBirthday = async () => {
     const birthday = document.querySelector(".birthday");
-    await fetch(base_url + '/birthday' + getQuery(), {mode: "no-cors"})
-        .then(r => birthday.textContent = r.json().data.birthday)
-        .catch((e) => birthday.textContent = "")
+    const url = createURL('/user/birthday');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => birthday.textContent = r.data.birthday)
+        .catch((e) => {
+            birthday.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setEmail = async () => {
+const updateEmail = async () => {
     const email = document.querySelector(".email");
-    await fetch(base_url + '/email' + getQuery(), {mode: "no-cors"})
-        .then(r => email.textContent = r.json().data.email)
-        .catch((e) => email.textContent = "")
+    const url = createURL('/user/email');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => {
 
+            email.textContent = r.data.email
+        })
+        .catch((e) => {
+            email.textContent = "..."
+            console.log({e, url})
+        })
 }
 
-export const setAbout = async () => {
+const updateAbout = async () => {
     const about = document.querySelector(".about_info");
-    await fetch(base_url + '/about' + getQuery(), {mode: "no-cors"})
-        .then(r => about.textContent = r.json().data.about)
-        .catch((e) => about.textContent = "")
-
+    const url = createURL('/user/about');
+    await fetch(url)
+        .then(r => r.json())
+        .then(r => about.textContent = r.data.about)
+        .catch((e) => {
+            about.textContent = "..."
+            console.log({e, url})
+        })
 }
-export const setImage = async () => {
+const updateImage = async () => {
     const img = document.querySelector(".user_image");
-    await fetch(base_url + '/photo' + getQuery(), {mode: "no-cors"})
+    const url = createURL('/user/photo');
+    await fetch(url)
         .then(r => r.json())
         .then(json => img.setAttribute("src", json.data.link))
-        .catch((e) => img.textContent = "")
+        .catch((e) => {
+            img.textContent = "..."
+            console.log({e, url})
+        })
+}
+const getUserById = async () => {
+    const url = createURL('/user');
+    return await fetch(url)
+        .then(r => r.json())
+        .catch((e) => {
+            console.log({e, url});
+            return {};
+        })
+}
 
+const setInfo = (selector, data) => {
+    console.log({selector, data})
+    const e = document.querySelector(selector);
+    e && data ? e.textContent = data : null;
+}
+
+const setInformations = (data) => {
+    Object.keys(data).forEach(k => setInfo(`.${k}`, data[k]));
 }
 
 const setData = async () => {
-    await setNickname();
-    await setUsername();
-    await setTeam();
-    await setLivingPlace()
-    await setBirthday()
-    await setEmail();
-    await setAbout();
-    await setImage();
+    const {data} = await getUserById();
+    if (data)
+        setInformations(data)
+    // if (!data) {
+    //     window.location.href = "https://qna.habr.com/"
+    // }
 };
 
 export default setData;

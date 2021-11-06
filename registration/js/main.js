@@ -1,20 +1,58 @@
-await (async function ($) {
-        var input = $('.validate-input .input100');
+import {base_api_url, base_app_url} from "../../envs.js";
+import Swal from '../../node_modules/sweetalert2/src/sweetalert2.js'
+
+
+(async function ($) {
+        const input = $('.validate-input .input100');
 
         $('.validate-form').on('submit', function () {
             let check = true;
-            for (let i = 0; i < input.length; i++) {
-                if ($(input[i]).val().length > 40) {
-                    check = false;
+            if ($('#password').val() !== $('#password2').val()) {
+                showValidate($('#password2'));
+                check = false
+            }
 
-                }
+
+            for (let i = 0; i < input.length; i++) {
                 if (!validate(input[i])) {
                     showValidate(input[i]);
                     check = false;
                 }
             }
-            if (check) ajax_post_request(input[0].value, input[1].value, input[2].value, input[3].value);
-            return check;
+            if (!check) return false;
+            const [err, data] = ajax_post_request(input[0].value, input[1].value, input[2].value, input[3].value);
+
+            console.log(data)
+            console.log(err, `${base_app_url}/user_page/index.html?user_id=${!data??data["user_id"]}`)
+            if (err) {
+                Swal.fire({
+                    icon: 'error',
+                    title: err.errorText,
+                    text: err.description,
+                    showConfirmButton: true,
+                })
+                return false;
+            }
+            Swal.fire({  //todo where??? not visible
+                position: 'top-end',
+                icon: 'success',
+                title: `MFK, y re In mN ${data["user_id"]}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+
+            window.location.href = `${base_app_url}/user_page/index.html?user_id=${data["user_id"]}`
+
+            Swal.fire({//todo where??? not visible
+                position: 'top-end',
+                icon: 'success',
+                title: `MFK2, y re In mN ${data["user_id"]}`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+            // window.location.href = `../../user_page/index.html?data=${data["user_id"]}`
+            // window.location.href = "https://qna.habr.com/"
+            return false;
         });
 
 
@@ -25,18 +63,19 @@ await (async function ($) {
         });
 
         function validate(input) {
+            const val = $(input).val();
             if ($(input).attr('name') === 'pass')
-                return /(?=.*[0-9])[a-zA-Z0-9]{6,64}/.test($(input).val().trim());
+                return val.length > 6 && val.match(/.*\d.*\d.*\d.*/) && val.match(/.*[a-z].*/) && val.match(/.*[A-Z].*/);
 
-            if ($(input).val().length > 40)
+            if (val.length > 40)
                 return alert("Too much symbols")
 
             if ($(input).attr('type') === 'email' || $(input).attr('name') === 'email') {
-                if (!/.+@.+\..+/.test($(input).val().trim())) {
+                if (!/.+@.+\..+/.test(val.trim())) {
                     return false;
                 }
             } else {
-                if (!$(input).val().trim().length && !$(input).val().match(/[\\\/]+/)) {
+                if (!val.trim().length && !val.match(/[\\\/]+/)) {
                     return false;
                 }
             }
@@ -44,59 +83,24 @@ await (async function ($) {
         }
 
         function showValidate(input) {
-            var thisAlert = $(input).parent();
-
+            const thisAlert = $(input).parent();
             $(thisAlert).addClass('alert-validate');
         }
 
         function hideValidate(input) {
-            var thisAlert = $(input).parent();
-
+            const thisAlert = $(input).parent();
             $(thisAlert).removeClass('alert-validate');
         }
 
         function ajax_post_request(username, nickname, email, password) {
-            // console.log({username, nickname, email, password})
-            // const xml = new XMLHttpRequest();
-            // xml.open("POST", "http://192.168.1.3:8080/api/registration", true);
-            // xml.responseType = 'json';
-            //
-            // xml.send(JSON.stringify({username, nickname, email, password}))
-            //
-            // const result = xml.response;
-            //
-            // xml.onload = function () {
-            //     const responseObj = xml.response;
-            //     alert(responseObj.message); // Привет, мир!
-            //
-            // };
-            // console.log({result})
+            console.log(123)
+            const xml = new XMLHttpRequest();
+            xml.open("POST", base_api_url + "/registration", false);
 
-            // await fetch("http://192.168.1.3:8080/api/registration", {
-            //     method: "POST",
-            //     body: JSON.stringify({username, nickname, email, password}),
-            //     mode:"no-cors"
-            // }).then(r => {
-            //     console.log({r})
-            //     r.json()
-            // }).catch(e => console.log(e))
-
-            // const request = new XMLHttpRequest();
-            // request.open("POST", 'http://192.168.1.3:8080/api/registration', true);
-            // request.withCredentials = true;
-            // request.send(JSON.stringify({username, nickname, email, password}))
-            // console.log(1121, request);
-
-            $.ajax({
-                url: 'http://192.168.1.3:8080/api/registration',
-                method: 'POST',
-                data: JSON.stringify({ username, nickname, email, password }),
-                success: () => {
-                    console.log(JSON.stringify({ name: username, nick: nickname, email, password }))
-                }
-            }).done( function (resp) {
-
-            })
+            xml.send(JSON.stringify({username, nickname, email, password}))
+            const result = JSON.parse(xml.response);
+            if (xml.status !== 200 || !result || !result["user_id"]) return [result, null];
+            return [null, result];
         }
     }
 )

@@ -1,63 +1,32 @@
+import {base_api_url} from "../../envs.js";
+
 (function ($) {
         "use strict";
-        
-        
+
+
         const input = $('.validate-input .input100');
-        
+
         $('.validate-form').on('submit', function () {
-            let check = true;
-            
-            for (let i = 0; i < input.length; i++) {
-                if (!validate(input[i])) {
-                    showValidate(input[i]);
-                    check = false;
-                }
-            }
-            if (check) ajax_post_request(input[0].value, input[1].value)
-            return check;
+            const [err, user_id] = ajax_post_request(input[0].value, input[1].value);
+            if (err) return false;
+            alert(user_id)
+            window.location.replace("https://yandex.ru/")
         });
-        
-        
-        $('.validate-form .input100').each(function () {
-            $(this).focus(function () {
-                hideValidate(this);
-            });
-        });
-        
-        function validate (input) {
-            if ($(input).attr('type') === 'email' || $(input).attr('name') == 'email') {
-                if ($(input).val().trim().match(/^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-                    return false;
-                }
-            } else {
-                if ($(input).val().trim() == '') {
-                    return false;
-                }
-            }
-        }
-        
-        function showValidate (input) {
-            const thisAlert = $(input).parent();
-            
-            $(thisAlert).addClass('alert-validate');
-        }
-        
-        function hideValidate (input) {
-            const thisAlert = $(input).parent();
-            
-            $(thisAlert).removeClass('alert-validate');
-        }
-        
+
         const ajax_post_request = (email, password) => {
-            $.ajax({
-                url: 'http://localhost:8080/api/login',
-                method: 'post',
-                dataType: 'json',
-                data: { email, password },
-                success: (data) => {
-                    alert(data);
-                }
-            })
+            const xml = new XMLHttpRequest();
+            xml.open("POST", base_api_url + "/login", false);
+
+            xml.send(JSON.stringify({email, password}))
+            const status = xml.status;
+            const responseText = xml.responseText;
+            console.log({responseText})
+            if (status === 200) {
+                return [false, responseText];
+            }
+            const thisAlert = $($('#password')).parent();
+            $(thisAlert).addClass("alert-validate");
+            return [true];
         }
     }
 )
