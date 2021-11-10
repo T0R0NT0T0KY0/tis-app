@@ -28,5 +28,8 @@
     "terser-webpack-plugin": "^5.2.4",
     "webpack-bundle-analyzer": "^4.5.0"
   },
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "pug": "^3.0.2"
+  }
 }

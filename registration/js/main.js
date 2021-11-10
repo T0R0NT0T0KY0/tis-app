@@ -40,7 +40,6 @@ import Swal from '../../node_modules/sweetalert2/src/sweetalert2.js'
                 showConfirmButton: false,
                 timer: 1500
             });
-
             window.location.href = `${base_app_url}/user_page/index.html?user_id=${data["user_id"]}`
 
             Swal.fire({//todo where??? not visible
@@ -50,8 +49,6 @@ import Swal from '../../node_modules/sweetalert2/src/sweetalert2.js'
                 showConfirmButton: false,
                 timer: 1500
             });
-            // window.location.href = `../../user_page/index.html?data=${data["user_id"]}`
-            // window.location.href = "https://qna.habr.com/"
             return false;
         });
 
@@ -93,13 +90,14 @@ import Swal from '../../node_modules/sweetalert2/src/sweetalert2.js'
         }
 
         function ajax_post_request(username, nickname, email, password) {
-            console.log(123)
             const xml = new XMLHttpRequest();
             xml.open("POST", base_api_url + "/registration", false);
 
             xml.send(JSON.stringify({username, nickname, email, password}))
             const result = JSON.parse(xml.response);
+            console.log(123, xml.getAllResponseHeaders());
             if (xml.status !== 200 || !result || !result["user_id"]) return [result, null];
+            // sessionStorage.setItem("user_dto", xml.getResponseHeader("user_dto"))
             return [null, result];
         }
     }
